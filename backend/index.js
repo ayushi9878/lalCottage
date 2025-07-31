@@ -12,20 +12,27 @@ console.log('RAZORPAY_KEY_SECRET:', process.env.RAZORPAY_KEY_SECRET);
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-
-// CORS configuration using official package
+// CORS configuration - must be first middleware
 const allowedOrigins = [
   "https://lal-cottage.web.app",
   "http://localhost:3000"
 ];
-app.use(require("cors")({
+app.use(cors({
   origin: allowedOrigins,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Razorpay-Signature", "Accept", "Origin"],
   credentials: true
 }));
+// Handle preflight requests globally
+app.options('*', cors());
+
+// Use express.json for all routes except webhook
 app.use(express.json());
-app.use(express.raw({ type: 'application/json' })); // For webhook
+
+// Use express.raw only for webhook route
+app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  // ...webhook handler...
+});
 
 // Razorpay instance
 const razorpay = new Razorpay({
