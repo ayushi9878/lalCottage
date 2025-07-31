@@ -18,7 +18,11 @@ app.use(cors({
     "https://lal-cottage.web.app",
     "https://www.lal-cottage.web.app"
   ],
-  credentials: true
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Razorpay-Signature'],
+  credentials: true,
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 }));
 app.use(express.json());
 app.use(express.raw({ type: 'application/json' })); // For webhook
