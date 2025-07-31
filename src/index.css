@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Rajasthani Color Palette */
+    --background: 45 15% 97%;
+    --foreground: 25 20% 15%;
+
+    --card: 45 20% 98%;
+    --card-foreground: 25 20% 15%;
+
+    --popover: 45 20% 98%;
+    --popover-foreground: 25 20% 15%;
+
+    /* Terracotta/Maroon Primary */
+    --primary: 15 65% 45%;
+    --primary-foreground: 45 20% 98%;
+
+    /* Mustard Yellow Secondary */
+    --secondary: 45 85% 60%;
+    --secondary-foreground: 25 20% 15%;
+
+    /* Warm Muted Tones */
+    --muted: 35 25% 90%;
+    --muted-foreground: 25 15% 45%;
+
+    /* Royal Blue Accent */
+    --accent: 225 85% 55%;
+    --accent-foreground: 45 20% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 35 20% 85%;
+    --input: 35 20% 92%;
+    --ring: 15 65% 45%;
+
+    /* Rajasthani Design Tokens */
+    --terracotta: 15 65% 45%;
+    --maroon: 350 70% 35%;
+    --mustard: 45 85% 60%;
+    --indigo: 225 85% 55%;
+    --royal-blue: 220 90% 50%;
+    --warm-cream: 45 30% 95%;
+    --desert-sand: 40 40% 85%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--terracotta)), hsl(var(--maroon)));
+    --gradient-sunset: linear-gradient(135deg, hsl(var(--mustard)), hsl(var(--terracotta)));
+    --gradient-royal: linear-gradient(135deg, hsl(var(--indigo)), hsl(var(--royal-blue)));
+
+    /* Shadows */
+    --shadow-ethnic: 0 10px 30px -10px hsl(var(--terracotta) / 0.3);
+    --shadow-warm: 0 4px 20px -4px hsl(var(--mustard) / 0.25);
+    
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark Theme with Rajasthani Touch */
+    --background: 25 25% 8%;
+    --foreground: 45 20% 95%;
+
+    --card: 25 20% 12%;
+    --card-foreground: 45 20% 95%;
+
+    --popover: 25 20% 12%;
+    --popover-foreground: 45 20% 95%;
+
+    --primary: 15 70% 55%;
+    --primary-foreground: 25 20% 8%;
+
+    --secondary: 45 60% 50%;
+    --secondary-foreground: 25 20% 8%;
+
+    --muted: 25 15% 20%;
+    --muted-foreground: 45 15% 65%;
+
+    --accent: 225 80% 60%;
+    --accent-foreground: 25 20% 8%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 25 15% 25%;
+    --input: 25 15% 25%;
+    --ring: 15 70% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+  
+  .animation-delay-700 {
+    animation-delay: 700ms;
+  }
+}
