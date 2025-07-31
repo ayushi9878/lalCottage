@@ -17,6 +17,7 @@ const allowedOrigins = [
   "https://lal-cottage.web.app",
   "http://localhost:3000"
 ];
+
 app.use(cors({
   origin: allowedOrigins,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -25,6 +26,18 @@ app.use(cors({
 }));
 // Handle preflight requests globally
 app.options('*', cors());
+
+// Catch-all CORS headers middleware for all responses
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Razorpay-Signature, Accept, Origin");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
 
 // Use express.json for all routes except webhook
 app.use(express.json());
