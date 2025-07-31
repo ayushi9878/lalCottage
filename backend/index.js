@@ -14,7 +14,10 @@ const PORT = process.env.PORT || 8081;
 
 
 app.use(cors({
-  origin: /^https:\/\/.*\.render\.com$/,
+  origin: [
+    "https://lal-cottage.web.app",
+    "https://www.lal-cottage.web.app"
+  ],
   credentials: true
 }));
 app.use(express.json());
