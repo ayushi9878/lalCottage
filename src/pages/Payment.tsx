@@ -149,6 +149,7 @@ const Payment = () => {
     try {
       // Create payment order
       console.log('Creating payment order...');
+      console.log('Sending order request to:', 'https://lalcottage.onrender.com/create-order');
       const orderResponse = await fetch('https://lalcottage.onrender.com/create-order', {
         method: 'POST',
         headers: { 
@@ -164,7 +165,12 @@ const Payment = () => {
 
       if (!orderResponse.ok) {
         const errorData = await orderResponse.json();
-        console.error('Order API error:', errorData);
+        console.error('Order API error:', {
+          status: orderResponse.status,
+          statusText: orderResponse.statusText,
+          errorData,
+          headers: Object.fromEntries(orderResponse.headers.entries())
+        });
         throw new Error(errorData.message || 'Failed to create payment order');
       }
 
