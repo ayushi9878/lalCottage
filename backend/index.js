@@ -13,14 +13,16 @@ const app = express();
 const PORT = process.env.PORT || 10000;
 
 // CORS middleware configuration
-app.use(cors({
-  origin: ['https://lal-cottage.web.app', 'https://www.lal-cottage.web.app'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Razorpay-Signature', 'Accept', 'Origin'],
-  credentials: true,
-  preflightContinue: false,
-  optionsSuccessStatus: 204
-}));
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Razorpay-Signature, Accept, Origin');
+  
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
 app.use(express.json());
 app.use(express.raw({ type: 'application/json' })); // For webhook
 
@@ -91,9 +93,11 @@ app.post("/create-order", async (req, res) => {
       success: true,
       key: process.env.RAZORPAY_KEY_ID,
       orderId: order.id,
+      order_id: order.id, // Adding this as Razorpay sometimes expects order_id
       amount: order.amount,
       currency: order.currency,
-      receipt: order.receipt
+      receipt: order.receipt,
+      notes: order.notes
     });
     
   } catch (error) {
