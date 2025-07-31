@@ -149,7 +149,8 @@ const Payment = () => {
     try {
       // Create payment order
       console.log('Creating payment order...');
-      const orderResponse = await fetch('http://localhost:8081/create-order', {
+      const orderResponse = await fetch('https://lalcottage.onrender.com/create-order', {
+
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json' 
@@ -183,7 +184,8 @@ const Payment = () => {
           try {
             // Verify payment
             console.log('Verifying payment...', response);
-            const verifyResponse = await fetch('http://localhost:8081/verify-payment', {
+            // const verifyResponse = await fetch('http://localhost:8081/verify-payment', {
+            const verifyResponse = await fetch('https://lalcottage.onrender.com/verify-payment', {
               method: 'POST',
               headers: { 
                 'Content-Type': 'application/json' 

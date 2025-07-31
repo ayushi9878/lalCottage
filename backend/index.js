@@ -5,15 +5,16 @@ const Razorpay= require("razorpay")
 const dotenv = require("dotenv");
 const cors = require("cors");
 const crypto = require("crypto");
-dotenv.config();
+dotenv.config({ path: __dirname + '/.env' });
+console.log('RAZORPAY_KEY_ID:', process.env.RAZORPAY_KEY_ID);
+console.log('RAZORPAY_KEY_SECRET:', process.env.RAZORPAY_KEY_SECRET);
 
 const app = express();
 const PORT = process.env.PORT || 8081;
 
-// Middleware
-// Allow both React (8080) and Vite (5173) dev servers
+
 app.use(cors({
-  origin: [ 'http://localhost:8081', 'http://localhost:8083' ],
+  origin: /^https:\/\/.*\.render\.com$/,
   credentials: true
 }));
 app.use(express.json());
@@ -262,13 +263,13 @@ app.use((req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running at http://0.0.0.0:${PORT}`);
   console.log(`📋 Available endpoints:`);
-  console.log(`   GET  http://localhost:${PORT}/`);
-  console.log(`   GET  http://localhost:${PORT}/health`);
-  console.log(`   POST http://localhost:${PORT}/create-order`);
-  console.log(`   POST http://localhost:${PORT}/verify-payment`);
-  console.log(`   POST http://localhost:${PORT}/webhook`);
+  console.log(`   GET  http://0.0.0.0:${PORT}/`);
+  console.log(`   GET  http://0.0.0.0:${PORT}/health`);
+  console.log(`   POST http://0.0.0.0:${PORT}/create-order`);
+  console.log(`   POST http://0.0.0.0:${PORT}/verify-payment`);
+  console.log(`   POST http://0.0.0.0:${PORT}/webhook`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
-

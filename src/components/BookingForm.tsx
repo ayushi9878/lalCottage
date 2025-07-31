@@ -155,7 +155,7 @@ const BookingForm = () => {
     }
   };
 
-  const roomPrice = 2400;
+  const roomPrice = 1;
 
   const calculateTotal = () => {
     if (!formData.checkIn || !formData.checkOut) return menuTotal;
