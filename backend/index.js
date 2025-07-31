@@ -38,6 +38,12 @@ if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
   process.exit(1);
 }
 
+// Log all incoming requests
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  next();
+});
+
 // -------- ROUTES -------- //
 
 // Test route
@@ -45,7 +51,9 @@ app.get("/", (req, res) => {
   res.json({
     message: "🔗 Razorpay Node.js Backend is Running!",
     timestamp: new Date().toISOString(),
-    razorpayKeyId: process.env.RAZORPAY_KEY_ID ? "✅ Present" : "❌ Missing"
+    razorpayKeyId: process.env.RAZORPAY_KEY_ID ? "✅ Present" : "❌ Missing",
+    version: "1.0.1",
+    endpoints: ["/", "/health", "/create-order", "/verify-payment", "/webhook"]
   });
 });
 
@@ -57,7 +65,10 @@ app.get("/health", (req, res) => {
 // CREATE ORDER
 app.post("/create-order", async (req, res) => {
   try {
-    console.log("📝 Create order request:", req.body);
+    console.log("📝 Create order request received");
+    console.log("Headers:", req.headers);
+    console.log("Body:", req.body);
+    console.log("URL:", req.originalUrl);
     
     const { amount, currency = "INR", bookingData } = req.body;
 

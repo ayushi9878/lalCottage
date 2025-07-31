@@ -149,12 +149,11 @@ const Payment = () => {
     try {
       // Create payment order
       console.log('Creating payment order...');
-      const orderResponse = await fetch('http://0.0.0.0:10000/create-order', {
+      const orderResponse = await fetch('https://lalcottage.onrender.com/create-order', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Origin': 'https://lal-cottage.web.app'
+          'Accept': 'application/json'
         },
         body: JSON.stringify({ 
           amount: calculateTotal(),
@@ -183,14 +182,14 @@ const Payment = () => {
         order_id: orderData.orderId,
         handler: async function (response: any) {
           try {
-            // Verify payment
+                        try {
+                        // Verify payment
             console.log('Verifying payment...', response);
-            const verifyResponse = await fetch('http://0.0.0.0:10000/verify-payment', {
+            const verifyResponse = await fetch('https://lalcottage.onrender.com/verify-payment', {
               method: 'POST',
               headers: { 
                 'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Origin': 'https://lal-cottage.web.app'
+                'Accept': 'application/json'
               },
               body: JSON.stringify({
                 razorpay_order_id: response.razorpay_order_id,
