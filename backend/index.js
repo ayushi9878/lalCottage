@@ -1,3 +1,11 @@
+// DEBUG ENV ROUTE
+app.get("/debug-env", (req, res) => {
+  res.json({
+    RAZORPAY_KEY_ID: process.env.RAZORPAY_KEY_ID,
+    RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET,
+    NODE_ENV: process.env.NODE_ENV
+  });
+});
 // import express from "express";
 
 const express = require("express");
@@ -18,16 +26,7 @@ const allowedOrigins = [
   "http://localhost:3000"
 ];
 
-app.use(cors({
-  origin: allowedOrigins,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Razorpay-Signature", "Accept", "Origin"],
-  credentials: true
-}));
-// Handle preflight requests globally
-app.options('*', cors());
-
-// Catch-all CORS headers middleware for all responses
+// Catch-all CORS headers middleware for all responses (move to very top)
 app.use((req, res, next) => {
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
@@ -36,8 +35,19 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Razorpay-Signature, Accept, Origin");
   res.header("Access-Control-Allow-Credentials", "true");
+  // Respond to OPTIONS preflight immediately
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
   next();
 });
+
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Razorpay-Signature", "Accept", "Origin"],
+  credentials: true
+}));
 
 // Use express.json for all routes except webhook
 app.use(express.json());
@@ -88,8 +98,12 @@ app.post("/create-order", async (req, res) => {
   try {
     console.log("📝 Create order request received");
     console.log("Headers:", req.headers);
-    console.log("Body:", req.body);
+    console.log("Raw request body:", req.body);
     console.log("URL:", req.originalUrl);
+    if (!req.body || Object.keys(req.body).length === 0) {
+      console.error("❌ No request body received. Check frontend fetch and Content-Type header.");
+      return res.status(400).json({ success: false, message: "No request body received. Check frontend fetch and Content-Type header." });
+    }
     
     const { amount, currency = "INR", bookingData } = req.body;
 
